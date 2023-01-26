@@ -1,9 +1,10 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const {create, getAll, deleteOne, getOne} = require('./handler/media');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.send("Media")
-});
+router.post('/', create);
+router.get("/", getAll)
+router.get("/:id", getOne)
+router.delete('/:id', deleteOne)
 
 module.exports = router;
