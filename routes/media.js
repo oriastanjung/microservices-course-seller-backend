@@ -5,6 +5,40 @@ const base64Img = require("base64-img");
 
 const { Media } = require("../models");
 
+router.get('/', async (req,res) => {
+  const media = await Media.findAll({
+    attributes : ['id','image']
+  });
+
+  const mappedMedia = media.map((item) => {
+    item.image = `${req.get('host')}/${item.image}`
+    return item
+  })
+  return res.json({
+    status : "success",
+    data : mappedMedia
+  })
+})
+
+router.get("/:id", async (req, res) => {
+  const {id} = req.params;
+  const data = await Media.findByPk(id, {
+    attributes : ['id', 'image']
+  });
+
+  if(!data){
+    return res.status(400).json({status : "error", message : `no such file with primary key ${id}`})
+  }
+
+  const result = data
+  result.image = `${req.get('host')}/${result.image}`
+  return res.json({
+    status : "success",
+    data : result
+  })
+})
+
+
 router.post("/", (req, res) => {
   const { image } = req.body;
   if (!isBase64(image, { mimeRequired: true })) {
@@ -19,7 +53,7 @@ router.post("/", (req, res) => {
     // const filename = filepath.split('\\').pop().split("/").pop()    // for windows
     const filename = filepath.split("/").pop(); // for mac
     const media = await Media.create({
-      image : `image/${filename}`
+      image : `images/${filename}`
     })
 
     return res.json({
