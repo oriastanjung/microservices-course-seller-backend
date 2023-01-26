@@ -2,7 +2,7 @@ const express = require("express");
 const isBase64 = require("is-base64");
 const router = express.Router();
 const base64Img = require("base64-img");
-
+const fs = require('fs');
 const { Media } = require("../models");
 
 router.get('/', async (req,res) => {
@@ -27,7 +27,7 @@ router.get("/:id", async (req, res) => {
   });
 
   if(!data){
-    return res.status(400).json({status : "error", message : `no such file with primary key ${id}`})
+    return res.status(404).json({status : "error", message : `no such file with primary key ${id}`})
   }
 
   const result = data
@@ -37,7 +37,6 @@ router.get("/:id", async (req, res) => {
     data : result
   })
 })
-
 
 router.post("/", (req, res) => {
   const { image } = req.body;
@@ -66,4 +65,34 @@ router.post("/", (req, res) => {
   });
 });
 
+
+
+router.delete('/:id' , async (req,res) => {
+  const {id} = req.params;
+
+  const media = await Media.findByPk(id);
+
+  if(!media){
+    res.status(404).json({
+      status : "error",
+      message : `img media with id - ${id} not found`
+    })
+  }
+
+  fs.unlink(`./public/${media.image}`, async (err) => {
+    if(err) {
+      res.status(404).json({
+        status : "error",
+        message : err.message
+      })
+    }
+
+    await media.destroy();
+
+    return res.json({
+      status : "success",
+      message : `image media with id - ${id} deleted`
+    })
+  })
+})
 module.exports = router;
