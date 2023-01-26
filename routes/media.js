@@ -73,15 +73,15 @@ router.delete('/:id' , async (req,res) => {
   const media = await Media.findByPk(id);
 
   if(!media){
-    res.status(404).json({
+    return res.status(404).json({
       status : "error",
       message : `img media with id - ${id} not found`
     })
   }
-
+  
   fs.unlink(`./public/${media.image}`, async (err) => {
     if(err) {
-      res.status(404).json({
+      return res.status(404).json({
         status : "error",
         message : err.message
       })
