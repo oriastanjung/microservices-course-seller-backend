@@ -36,8 +36,8 @@ module.exports = async (req, res) => {
             status : "error",
             message : "Invalid Credentials"
         })
-    } 
-
+    }
+    
     return res.json({
         status : "success",
         data : {

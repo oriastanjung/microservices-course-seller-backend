@@ -1,12 +1,11 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const {register, login} = require('./handler/users');
+const { register, login, update, getOne, getAll } = require("./handler/users");
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
-
-router.post('/register', register)
-router.post('/login', login)
+router.get("/",getAll)
+router.get("/:id", getOne);
+router.post("/register", register);
+router.post("/login", login);
+router.put("/:id", update);
 
 module.exports = router;
