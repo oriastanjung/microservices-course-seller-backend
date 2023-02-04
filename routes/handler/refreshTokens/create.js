@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     user_id: "number",
   };
   const validate = v.validate(req.body, schema);
-
+  
   if (validate.length) {
     return res.status(400).json({
       status: "error",

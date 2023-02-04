@@ -55,13 +55,15 @@ module.exports = async (req, res) => {
     profession,
     avatar
   })
+  
   return res.json({
     status : "success",
     data : {
-        email : user.email,
-        name : user.name,
-        profession : user.profession,
-        avatar : user.avatar,
+        id : user.id,
+        name : name,
+        email : email,
+        avatar,
+        profession
     }
   })
 };
