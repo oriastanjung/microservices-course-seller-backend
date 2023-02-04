@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
       return res.status(403).json({ message: err.message });
     }
     req.user = decoded;
-    console.log("req.user >> ",req.user)
+    // console.log("req.user >> ",req.user)
     return next();
   });
 };
