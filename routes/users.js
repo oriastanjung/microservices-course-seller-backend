@@ -1,9 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const {register, login, update} = require('./handler/users');
+const { register, login, update, getUser, logout } = require("./handler/users");
 const verifyToken = require("../middlewares/verifyToken");
 
-router.post('/register', register)
-router.post('/login', login)
-router.put('/', verifyToken,update)
+router.get("/", verifyToken, getUser);
+router.post("/register", register);
+router.post("/login", login);
+router.put("/", verifyToken, update);
+router.post('/logout', verifyToken, logout)
+
 module.exports = router;

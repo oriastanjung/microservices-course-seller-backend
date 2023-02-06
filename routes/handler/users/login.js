@@ -37,8 +37,14 @@ module.exports = async (req, res) => {
         message: "Service Users Unavailable",
       });
     }
-
-    const { status, data } = error.response;
-    return res.status(status).json(data);
+    if(error.response){
+      const { status, data } = error.response;
+      return res.status(status).json(data);
+    }
+    
+    return res.status(400).json({
+      status : "error",
+      message : "error on login code"
+    });
   }
 };
