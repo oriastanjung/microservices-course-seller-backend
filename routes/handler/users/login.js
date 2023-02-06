@@ -9,7 +9,9 @@ module.exports = async (req, res) => {
         password : 'string|min:6',
     };
     const {email, password} = req.body;
+
     const validate = v.validate(req.body, schema);
+    
     if(validate.length){
         return res.status(400).json({
             status : "error",
